@@ -1,0 +1,131 @@
+@font-face {
+    font-family: 'halloween';
+    src: url(Font2/Gypsy\ Curse.ttf);
+}
+
+@font-face {
+    font-family: 'halo2';
+    src: url(Font/Scream\ Real.ttf);
+}
+
+body {
+    background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#D400FF, #5D0096 80%);
+    background-size: 600px, 100%;
+    background-position: right, center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.header {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    background-color: #E88B00;
+    padding: 50px;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    font-family: 'halloween';
+    font-size: 60px;
+    text-shadow: #99620f 5px 2px 2px;
+}
+
+.login,
+.signup {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: #560c85 5px 5px 2px;
+}
+
+.sec {
+    margin-top: 300px;
+    margin-left: 200px;
+}
+
+.title {
+    color: #F1C300;
+    font-family: 'halo2';
+    font-size: 30px;
+    text-shadow: #560c85 5px 5px 2px;
+}
+
+.login {
+    background-color: rgba(255, 255, 255, 0);
+    border: 3px solid #400b619d;
+    transition: ease-in-out 0.2s;
+    font-family: 'Leelawadee UI';
+    font-weight: bolder;
+    color: aliceblue;
+    margin-left: 200px;
+}
+
+.signup {
+    background-color: #B5087B;
+    border: 0px;
+    transition: ease-in-out 0.2s;
+    font-family: 'Leelawadee UI';
+    font-weight: bolder;
+    color: aliceblue;
+    margin-left: 30px;
+}
+
+.signup:hover {
+    background-color: #e40f9d;
+    transition: ease-in-out 0.2s;
+}
+
+.login:hover {
+    background-color: #8a1dce;
+    border: 3px solid #400b619d;
+}
+
+.sec p {
+    color: aliceblue;
+    font-family: 'Leelawadee UI';
+    font-weight: bold;
+    height: 100px;
+    width: 60%;
+    font-size: 15px;
+}
+
+.content {
+    display: flex;
+}
+
+img {
+    margin-top: 200px;
+}
+
+#message {
+    font-size: 20px;
+    font-family: 'halo2';
+    color: aliceblue;
+    position: absolute;
+    top: 650px;
+    left: 200px;
+}
+
+#inputFields {
+    position: absolute;
+    top: 700px;
+    left: 200px;
+}
+
+#inputFields label {
+    display: block;
+    /* Isso faz com que os rótulos fiquem em linhas separadas */
+    font-size: 15px;
+    margin-top: 6px;
+    color: aliceblue;
+    font-family: 'Leelawadee UI';
+    margin-bottom: 10px;
+    /* Adicione uma margem inferior para separar os rótulos */
+}
