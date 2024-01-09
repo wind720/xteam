@@ -1,38 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,500&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>Hallowen</title>
+    <link rel="stylesheet" href="flickity/flickity.css" media="screen">
 </head>
 
 <body>
     <div class="header">
-        <p>EMAZON</p>
-    </div>
-    <div class="content">
-        <div class="section">
-            <div class="sec">
-                <h1 class="title">Descubra o Treasure of Souls!</h1>
-                <p>Durante o período festivo de Halloween, A Emazon estará disponibilizando o mini-game "Treasure of
-                    Souls", onde o jogador, ao realizar o desafio, consegue uma oportunidade de receber cashback para
-                    realizar compras no resto da loja!</p>
-            </div>
-            <div>
-                <button class="login" onclick="showLogin()">Entrar</button>
-                <button class="signup" onclick="showSignup()">Cadastre-se</button>
-            </div>
-            <div id="message"></div>
-            <div id="inputFields"></div>
+        <div class="headertitle"><img src="images/console-controller.1024x1024.png" class="icon" alt="icon"> Xteam</div>
+        <div class="oh">
+            <div><a href=""><img src="images/pngegg.png" alt="shopping cart" class="cart"></a></div>
+            <div>|</div>
+            <div><a href=""><img src="images/—Pngtree—user icon_4479727.png" alt="user" class="cart"></a></div>
         </div>
+        
     </div>
-    <script src="script.js"></script>
+    <main>
+        <div class="destaque">
+            <div class="pop">MAIS POPULARES
+            <div class="p">CONFIRA OS JOGOS DO MOMENTO</div></div>
+            <div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true }'>
+                <div class="gallery-cell1"></div>
+                <div class="gallery-cell2"></div>
+                <div class="gallery-cell3"></div>
+            </div>
+        </div>
+        <div class="form-container">
+            <form class="search-bar">
+                <label for="search-input">Pesquisar: </label>
+                <input type="text" id="search-input" placeholder="Digite o nome do jogo">
+            </form>
+        </div>
+        <div class="games">
+        <section class="produto1" id="Lethal Company">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto2" id="Fortnite">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto3" id="Lies of P">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto4" id="Celest">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto5" id="Diablo IV">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto6" id="Guacamelee! 2">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto7" id="Five Nights At Freddy's: Security Breach">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto8" id="Valorant">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto9" id="Overwatch 2">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto10" id="Dark Deception">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto11" id="Rayman Legends">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto12" id="Elden Ring">
+            <button>Comprar</button>
+        </section>
+    </div>
+    <div class="games hidden">
+        <section class="produto1" id="Lethal Company">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto2" id="Fortnite">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto3" id="Lies of P">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto4" id="Celest">
+            <button>Comprar</button>
+        </section>
+    </div>
+    </main>
+    <script src="flickity/flickity.pkgd.min.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    var searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("input", function () {
+        var searchTerm = searchInput.value.toLowerCase();
+        
+        // Considera todas as seções de jogos
+        var sections = document.querySelectorAll('.games section');
+
+        var visibleSections = Array.from(sections).filter(function (section) {
+            var sectionId = section.id.toLowerCase();
+            return sectionId.includes(searchTerm);
+        });
+
+        sections.forEach(function (section) {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(-50px)";
+            section.style.position = "absolute";
+        });
+
+        visibleSections.forEach(function (section, index) {
+            section.style.opacity = "1";
+            section.style.transform = "translateY(0)";
+            section.style.position = "static";
+            section.style.transitionDelay = index * 0.1 + "s";
+        });
+    });
+});
+function toggleGames() {
+            var currentGames = document.querySelector('.games:not(.hidden)');
+            var nextGames = document.querySelector('.games.hidden');
+
+            currentGames.classList.add('hidden');
+            nextGames.classList.remove('hidden');
+        }
+    </script>
 </body>
 
 </html>

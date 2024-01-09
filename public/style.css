@@ -1,131 +1,290 @@
-@font-face {
-    font-family: 'halloween';
-    src: url(Font2/Gypsy\ Curse.ttf);
-}
 
 @font-face {
-    font-family: 'halo2';
-    src: url(Font/Scream\ Real.ttf);
+    font-family: gaming;
+    src: url(fonts/KnightWarrior-w16n8.otf);
+}
+@font-face {
+    font-family: as;
+    src: url(fonts/Anothershabby_trial.ttf);
 }
 
 body {
-    background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#D400FF, #5D0096 80%);
+    font-family: sans-serif;
+    background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#823776, #1B0000 110%);
     background-size: 600px, 100%;
     background-position: right, center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+.form-container {
+    display: block;
+    position: absolute;
+    top: 70px;
+    right: 290px;
+    font-family: 'gaming';
+    color: white;
+    font-size: 20px;
+}
+.form-container input{
+    border-radius: 3px;
+    border: 0;
+    width: 200px;
+    height: 30px;
+    margin-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
+.headertitle {
+    font-family: 'gaming';
+    font-size: 60px;
+    color: white;
+    margin-left: 500px;
+}
+.icon{
+    width: 50px;
+    height: auto;
+}
+.cart{
+    width: 50px;
+    height: auto;
+}
+.oh{
+    display: flex;
+    flex-direction: row;
+    color: white;
+    font-size: 50px;
+    width: 200px;
+    gap: 30px;
+    margin-right: 500px;
+}
 .header {
     display: flex;
     box-sizing: border-box;
     flex-direction: row;
-    background-color: #E88B00;
     padding: 50px;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 30px;
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
-    font-family: 'halloween';
-    font-size: 60px;
-    text-shadow: #99620f 5px 2px 2px;
 }
 
-.login,
-.signup {
-    width: 120px;
-    height: 40px;
-    border-radius: 5px;
-    font-family: 'Nunito', sans-serif;
-    cursor: pointer;
-    font-size: 15px;
-    box-shadow: #560c85 5px 5px 2px;
-}
-
-.sec {
-    margin-top: 300px;
-    margin-left: 200px;
-}
-
-.title {
-    color: #F1C300;
-    font-family: 'halo2';
-    font-size: 30px;
-    text-shadow: #560c85 5px 5px 2px;
-}
-
-.login {
-    background-color: rgba(255, 255, 255, 0);
-    border: 3px solid #400b619d;
-    transition: ease-in-out 0.2s;
-    font-family: 'Leelawadee UI';
-    font-weight: bolder;
-    color: aliceblue;
-    margin-left: 200px;
-}
-
-.signup {
-    background-color: #B5087B;
-    border: 0px;
-    transition: ease-in-out 0.2s;
-    font-family: 'Leelawadee UI';
-    font-weight: bolder;
-    color: aliceblue;
-    margin-left: 30px;
-}
-
-.signup:hover {
-    background-color: #e40f9d;
-    transition: ease-in-out 0.2s;
-}
-
-.login:hover {
-    background-color: #8a1dce;
-    border: 3px solid #400b619d;
-}
-
-.sec p {
-    color: aliceblue;
-    font-family: 'Leelawadee UI';
-    font-weight: bold;
-    height: 100px;
-    width: 60%;
-    font-size: 15px;
-}
-
-.content {
+main {
+    position: relative;
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap:10%;
+    width: 80%;
+    margin: auto;
+    margin-top: 100px;
+    background-color: #764C4C;
+    border-radius: 20px;
+    height: 800px;
 }
 
-img {
-    margin-top: 200px;
+.destaque{
+    width: 40%;
+    height:800px;
+    margin-top: 30px;
+}
+.pop{
+    font-family: 'gaming';
+    font-size: 40px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.pop .p{
+    font-family: 'as';
+    font-size: 25px;
+    color: white;
 }
 
-#message {
-    font-size: 20px;
+.gallery {
+    background: #eeeeee00;
+    margin-top: 30px;
+  }
+  
+  .gallery-cell1 {
+    width: 66%;
+    height: 600px;
+    margin-right: 10px;
+    background-image: url(images/lcart.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    counter-increment: gallery-cell;
+  }
+  .gallery-cell2 {
+    width: 66%;
+    height: 600px;
+    margin-right: 10px;
+    background-image: url(images/Lies_of_p_cover_art.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    counter-increment: gallery-cell;
+  }
+  .gallery-cell3 {
+    width: 66%;
+    height: 600px;
+    margin-right: 10px;
+    background-image: url(images/Hollow_Knight_first_cover_art.webp.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    counter-increment: gallery-cell;
+  }
+
+.games{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 30%;
+    margin-top: 30px;
+    height: 700px;
+    gap: 2px;
+    justify-content: center;
+    align-items: center;
+}
+.games.hidden {
+    display: none;
+}
+.games section {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    position: relative;
+}
+
+h2 {
     font-family: 'halo2';
-    color: aliceblue;
-    position: absolute;
-    top: 650px;
-    left: 200px;
+    font-size: 20px;
+    color: #ee9c20;
 }
 
-#inputFields {
-    position: absolute;
-    top: 700px;
-    left: 200px;
+.options {
+    display: flex;
+    flex-direction: row;
+    padding: 50px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+    align-items: center;
+    align-self: center;
+    color: white;
 }
 
-#inputFields label {
-    display: block;
-    /* Isso faz com que os rótulos fiquem em linhas separadas */
-    font-size: 15px;
-    margin-top: 6px;
-    color: aliceblue;
+.options div {
+    background-color: black;
+}
+
+
+.saldo {
     font-family: 'Leelawadee UI';
-    margin-bottom: 10px;
-    /* Adicione uma margem inferior para separar os rótulos */
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+
+
+section.produto1, .produto2, .produto3, .produto4, .produto5, .produto6, .produto7, .produto8, .produto9, .produto10, .produto11, .produto12 {
+    display: inline-block;
+    margin: 10px;
+    background-color: #401627;
+    border-radius: 5px;
+    padding: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+}
+.produto1{
+    background-image: url(images/download.jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto2{
+    background-image: url(images/download\ \(1\).jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto3{
+    background-image: url(images/download\ \(2\).jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto4{
+    background-image: url(images/download\ \(3\).jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto5{
+    background-image: url(images/UO2YF6KUSJICDCGPNBWIDZV4YI.jpeg);
+    background-position: center;
+    background-size: cover;
+}
+.produto6{
+    background-image: url(images/images.jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto7{
+    background-image: url(images/download\ \(4\).jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto8{
+    background-image: url(images/vava.jpg);
+    background-position: center;
+    background-size: cover;
+}
+.produto9{
+    background-image: url(images/renaud-galand-thumb.jpg);
+    background-position: center;
+    background-size: cover;
+}
+.produto10{
+    background-image: url(images/download\ \(6\).jfif);
+    background-position: center;
+    background-size: cover;
+}
+.produto11{
+    background-image: url(images/rayman_legends___cover_by_brunoanjopro_df2e8ya-414w-2x.jpg);
+    background-position: center;
+    background-size: cover;
+}
+.produto12{
+    background-image: url(images/download\ \(5\).jfif);
+    background-position: center;
+    background-size: cover;
+}
+
+
+button {
+    border: 0px;
+    box-shadow: 3px 3px 3px;
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.226);
+    font-family: 'gaming';
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    margin-top: 75px;
+}
+
+button:hover {
+    background-color:#803553;
+    color: white;
+    box-shadow: 3px 3px 3px black;
 }
