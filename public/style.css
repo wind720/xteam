@@ -19,16 +19,16 @@ body {
 .form-container {
     display: block;
     position: absolute;
-    top: 70px;
-    right: 290px;
+    top: 5%;
+    right: 12%;
     font-family: 'gaming';
     color: white;
     font-size: 20px;
 }
 .form-container input{
-    border-radius: 3px;
+    border-radius: 10px;
     border: 0;
-    width: 200px;
+    width: 375px;
     height: 30px;
     margin-left: 10px;
     font-family: Arial, Helvetica, sans-serif;
@@ -38,7 +38,7 @@ body {
     font-family: 'gaming';
     font-size: 60px;
     color: white;
-    margin-left: 500px;
+    margin-left: 25%;
 }
 .icon{
     width: 50px;
@@ -55,7 +55,7 @@ body {
     font-size: 50px;
     width: 200px;
     gap: 30px;
-    margin-right: 500px;
+    margin-right: 25%;
 }
 .header {
     display: flex;
@@ -70,6 +70,10 @@ body {
     top: 0;
     left: 0;
     z-index: -1;
+}
+.us{
+    font-family: 'as';
+    font-size: 20px;
 }
 
 main {
@@ -203,9 +207,9 @@ section.produto1, .produto2, .produto3, .produto4, .produto5, .produto6, .produt
     padding: 20px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
-    width: 100px;
-    height: 100px;
+    background-size: cover;
+    width: 21.5%;
+    height: 14.3%;
 }
 .produto1{
     background-image: url(images/download.jfif);

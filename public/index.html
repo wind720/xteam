@@ -14,7 +14,8 @@
         <div class="oh">
             <div><a href=""><img src="images/pngegg.png" alt="shopping cart" class="cart"></a></div>
             <div>|</div>
-            <div><a href=""><img src="images/—Pngtree—user icon_4479727.png" alt="user" class="cart"></a></div>
+            <div><a id="userLink" href="personalizacaoUsuario/personalizacaoUsuario.html"><img src="images/—Pngtree—user icon_4479727.png" alt="user" class="cart"></a></div>
+            <div class="us" id="loggedInUser">Sem usuário</div>
         </div>
         
     </div>
@@ -30,8 +31,8 @@
         </div>
         <div class="form-container">
             <form class="search-bar">
-                <label for="search-input">Pesquisar: </label>
-                <input type="text" id="search-input" placeholder="Digite o nome do jogo">
+                <label for="search-input"></label>
+                <input type="text" id="search-input" placeholder="🔍 Digite o nome do jogo">
             </form>
         </div>
         <div class="games">
@@ -103,41 +104,106 @@
     </main>
     <script src="flickity/flickity.pkgd.min.js"></script>
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    var searchInput = document.getElementById("search-input");
-    searchInput.addEventListener("input", function () {
-        var searchTerm = searchInput.value.toLowerCase();
+        document.addEventListener("DOMContentLoaded", function () {
+            var searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("input", function () {
+                var searchTerm = searchInput.value.toLowerCase();
         
-        // Considera todas as seções de jogos
-        var sections = document.querySelectorAll('.games section');
-
-        var visibleSections = Array.from(sections).filter(function (section) {
-            var sectionId = section.id.toLowerCase();
-            return sectionId.includes(searchTerm);
+                // Considera todas as seções de jogos
+                var sections = document.querySelectorAll('.games section');
+        
+                var visibleSections = Array.from(sections).filter(function (section) {
+                    var sectionId = section.id.toLowerCase();
+                    return sectionId.includes(searchTerm);
+                });
+        
+                sections.forEach(function (section) {
+                    section.style.opacity = "0";
+                    section.style.transform = "translateY(-50px)";
+                    section.style.position = "absolute";
+                });
+        
+                visibleSections.forEach(function (section, index) {
+                    section.style.opacity = "1";
+                    section.style.transform = "translateY(0)";
+                    section.style.position = "static";
+                    section.style.transitionDelay = index * 0.1 + "s";
+                });
+            });
+        
+            function showLoginOrRegisterPrompt() {
+                // Fazer uma requisição ao servidor para verificar o status de login
+                fetch('/check-login')
+                    .then(response => response.json())
+                    .then(data => {
+                        const isLoggedIn = data.isLoggedIn;
+        
+                        if (!isLoggedIn) {
+                            const userChoice = prompt('Escolha uma opção:\n1. Login\n2. Cadastro');
+        
+                            if (userChoice === '1') {
+                                const username = prompt('Usuário:');
+                                const password = prompt('Senha:');
+        
+                                // Fazer uma requisição ao servidor para fazer login
+                                fetch('/login', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ username, password })
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            alert('Login bem-sucedido!');
+                                            location.reload(); // Recarregar a página após o login
+                                        } else {
+                                            alert('Credenciais inválidas. Tente novamente.');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro ao fazer login:', error);
+                                    });
+                            } else if (userChoice === '2') {
+                                const username = prompt('Usuário:');
+                                const password = prompt('Senha:');
+        
+                                // Fazer uma requisição ao servidor para fazer cadastro
+                                fetch('/cadastrarUsuario', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ username, password })
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            alert('Cadastro realizado com sucesso!');
+                                        } else {
+                                            alert('Erro ao cadastrar usuário. Tente novamente.');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro ao cadastrar usuário:', error);
+                                    });
+                            } else {
+                                alert('Opção inválida ou cancelada.');
+                            }
+                        } else {
+                            // Se o usuário já estiver logado, redirecione para a página de personalização do usuário
+                            alert('Você já está logado como ' + data.username);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao verificar o status de login:', error);
+                    });
+            }
+        
+            // Adicione este código para ser executado quando o usuário clicar na imagem
+            document.getElementById('userLink').addEventListener('click', showLoginOrRegisterPrompt);
         });
-
-        sections.forEach(function (section) {
-            section.style.opacity = "0";
-            section.style.transform = "translateY(-50px)";
-            section.style.position = "absolute";
-        });
-
-        visibleSections.forEach(function (section, index) {
-            section.style.opacity = "1";
-            section.style.transform = "translateY(0)";
-            section.style.position = "static";
-            section.style.transitionDelay = index * 0.1 + "s";
-        });
-    });
-});
-function toggleGames() {
-            var currentGames = document.querySelector('.games:not(.hidden)');
-            var nextGames = document.querySelector('.games.hidden');
-
-            currentGames.classList.add('hidden');
-            nextGames.classList.remove('hidden');
-        }
-    </script>
+        </script>
+        
 </body>
 
 </html>
