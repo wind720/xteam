@@ -50,7 +50,7 @@ app.get('/check-login', (req, res) => {
   if (!isLoggedIn) {
     res.status(401).json({ isLoggedIn, username, userId });
   } else {
-    res.json({ isLoggedIn, username, userId });
+    res.status(200).json({ isLoggedIn, username, userId });
   }
 });
 
