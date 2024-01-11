@@ -101,7 +101,7 @@ app.post('/login', (req, res) => {
     async (error, results) => {
       if (error) {
         console.error(error);
-        res.status(500).send('Erro interno do servidor');
+        res.status(500).json({ error: 'Erro interno do servidor' });
         return;
       }
 
@@ -111,9 +111,9 @@ app.post('/login', (req, res) => {
         req.session.userId = user.id;
         req.session.username = user.username;
 
-        res.status(200).send('Login bem-sucedido');
+        res.status(200).json({ success: 'Login bem-sucedido' });
       } else {
-        res.status(401).send('Credenciais inválidas');
+        res.status(401).json({ error: 'Credenciais inválidas' });
       }
     }
   );
