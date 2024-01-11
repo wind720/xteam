@@ -12,27 +12,151 @@
     </div>
     <main>
         <div class="exit">
-            <a href="../index.html"><img src="../images/logout-512.png" alt="exit" class="exit"></a>
+            <a href="../index.html" title="Salvar alterações e sair"><img src="../images/logout-512.png" alt="exit" class="exit"></a>
         </div>
         <div class="rows">
-        <div class="row1"><img src="../images/—Pngtree—user icon_4479727.png" alt="user" class="user">PERFIL</div>
-        <div class="row2">
-            Nome de usuário:
-            <input type="text" class="inputs" placeholder="">
-        </div>
-        <div class="row3">
-            Email:
-            <input type="text" class="inputs" placeholder="">
-        </div>
-        <div class="row4">
-            Senha:
-            <input type="text" class="inputs" placeholder="">
-        </div>
-        <div class="row5">
-            <button class="button-2">SAIR</button>
-            <button class="button-1">GERENCIAR SALDO</button>
-        </div>
+            <div class="row1"><img src="../images/—Pngtree—user icon_4479727.png" alt="user" class="user">PERFIL</div>
+            <div class="row2">
+                Nome de usuário:
+                <input id="usernameInput" type="text" class="inputs" placeholder="">
+            </div>
+            <div class="row3">
+                Email:
+                <input id="emailInput" type="text" class="inputs" placeholder="" readonly disabled>
+            </div>
+            <div class="row4">
+                Senha:
+                <input id="passwordInput" type="text" class="inputs" placeholder="">
+            </div>
+            <div class="row5">
+                <button class="button-2">SAIR</button>
+                <button class="button-1">GERENCIAR SALDO</button>
+            </div>
         </div>
     </main>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Fazer uma requisição ao servidor para obter informações do usuário logado
+    fetch('/get-user-info')
+        .then(response => response.json())
+        .then(data => {
+            // Preencher os placeholders com as informações do usuário
+            document.getElementById('usernameInput').value = data.username;
+            document.getElementById('emailInput').value = data.email;
+            document.getElementById('passwordInput').value = data.password;
+        })
+        .catch(error => {
+            console.error('Erro ao obter informações do usuário:', error);
+        });
+
+    // Adicionar evento de clique ao botão "Salvar e Sair"
+    document.querySelector('.exit a').addEventListener('click', async function (event) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+
+        // Obter os valores dos inputs
+        const newUsername = document.getElementById('usernameInput').value;
+        const newPassword = document.getElementById('passwordInput').value;
+
+        // Fazer uma requisição ao servidor para obter informações atuais do usuário
+        const response = await fetch('/get-user-info');
+        const currentData = await response.json();
+
+        // Verificar se houve alterações nas informações
+        const hasChanges = newUsername !== currentData.username || newPassword !== currentData.password;
+
+        if (!hasChanges) {
+            // Se não houver alterações, redirecione diretamente para a homepage
+            window.location.href = '/';
+            return;
+        }
+
+        // Validar os valores dos inputs
+        if (newUsername.length > 30) {
+            alert('Nome de usuário deve ter no máximo 30 caracteres.');
+            return;
+        }
+        if (newPassword.length > 25) {
+            alert('Sua senha deve ter no máximo 25 caracteres.');
+            return;
+        }
+        if (newPassword.length < 8 || !/[a-zA-Z]/.test(newPassword) || !/\d/.test(newPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+            alert('Senha deve ter no mínimo 8 caracteres, incluindo uma letra, um número e um caractere especial.');
+            return;
+        }
+
+        // Confirmar se o usuário deseja salvar as alterações
+        const confirmSave = confirm('Deseja salvar as alterações?');
+
+        if (confirmSave) {
+            // Fazer uma requisição ao servidor para atualizar as informações do usuário
+            fetch('/atualizar-dados', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ newUsername, newPassword })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Alterações salvas com sucesso!');
+                    window.location.href = '/'; // Redirecionar para a página inicial após o salvamento
+                } else {
+                    console.error('Erro ao salvar alterações. Tente novamente.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao salvar alterações:', error);
+            });
+        } else {
+            // Se o usuário não deseja salvar, redirecione para a página inicial sem fazer alterações
+            window.location.href = '/';
+        }
+    });
+
+    // Adicionar evento de clique ao botão "Sair"
+    document.querySelector('.button-2').addEventListener('click', function () {
+        // Confirmar se o usuário deseja fazer logout
+        const confirmLogout = confirm('Deseja fazer logout?');
+
+        if (confirmLogout) {
+            // Fazer uma requisição ao servidor para fazer logout
+            fetch('/logout')
+                .then(response => {
+                    if (response.ok) {
+                        // Redirecionar para a homepage após o logout
+                        window.location.href = '/';
+                    } else {
+                        console.error('Erro ao fazer logout. Tente novamente.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao fazer logout:', error);
+                });
+        }
+        // Se o usuário não deseja fazer logout, permanece na mesma página
+    });
+
+    // Adicionar evento de foco ao input de senha
+    const passwordInput = document.getElementById('passwordInput');
+    passwordInput.addEventListener('focus', function () {
+        // Mostrar a senha quando o input está em foco
+        passwordInput.type = 'text';
+    });
+
+    // Adicionar evento de desfoco ao input de senha
+    passwordInput.addEventListener('blur', function () {
+        // Ocultar a senha com asteriscos quando o input perde o foco
+        passwordInput.type = 'password';
+    });
+
+    // Ocultar a senha com asteriscos quando a página é carregada
+    passwordInput.type = 'password';
+
+    // Adicionar evento de clique ao botão "GERENCIAR SALDO"
+    document.querySelector('.button-1').addEventListener('click', function () {
+        alert('Função em desenvolvimento! Use bem o dinheiro disponível atualmente!');
+    });
+});
+    </script>
 </body>
 </html>

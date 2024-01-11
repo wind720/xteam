@@ -32,82 +32,28 @@ db.connect((err) => {
   }
 });
 
-// Habilitar análise de corpo embutida no Express
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Configurar pasta pública
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rota padrão para servir o arquivo HTML
 app.get('/', (req, res) => {
   const isLoggedIn = req.session && req.session.isLoggedIn;
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Rota para lidar com o cadastro de usuários
-app.post('/cadastrarUsuario', (req, res) => {
-  const { username, email, password } = req.body;
-
-  // Verifica se username, email e password estão presentes no corpo da requisição
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: 'Informe username, email e password' });
-  }
-
-  // Insere os dados na tabela users
-  const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-  db.query(sql, [username, email, password], (err, result) => {
-    if (err) {
-      console.log('Erro ao cadastrar usuário:', err);
-      return res.status(500).json({ error: 'Erro interno ao cadastrar usuário' });
-    }
-
-    console.log('Usuário cadastrado com sucesso');
-    return res.status(200).json({ success: 'Usuário cadastrado com sucesso' });
-  });
-});
-
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // Consultar o banco de dados para verificar as credenciais
-  db.query(
-    'SELECT id, username, password FROM users WHERE username = ?',
-    [username],
-    async (error, results) => {
-      if (error) {
-        console.error(error);
-        res.status(500).send('Erro interno do servidor');
-        return;
-      }
-
-      // Verificar se o usuário existe e comparar a senha com o hash
-      if (results.length > 0) {
-        const user = results[0];
-        // Adicionar o nome de usuário à sessão
-        req.session.isLoggedIn = true;
-        req.session.userId = user.id;
-        req.session.username = user.username; // Adicione esta linha
-
-        res.status(200).send('Login bem-sucedido');
-      } else {
-        res.status(401).send('Credenciais inválidas');
-      }
-    }
-  );
-});
-
-// Rota para verificar o status de login do usuário
 app.get('/check-login', (req, res) => {
   const isLoggedIn = req.session.isLoggedIn || false;
   const userId = req.session.userId;
-  const username = req.session.username || 'Sem usuário'; // Altere aqui
+  const username = req.session.username || 'Sem usuário';
 
-  res.json({ isLoggedIn, username, userId });
+  if (!isLoggedIn) {
+    res.status(401).json({ isLoggedIn, username, userId });
+  } else {
+    res.json({ isLoggedIn, username, userId });
+  }
 });
 
-// Rota para obter o nome de usuário com base no ID do usuário
-// Rota para obter o nome de usuário com base no ID do usuário
 app.get('/get-username', (req, res) => {
   const userId = req.session.userId;
 
@@ -127,7 +73,100 @@ app.get('/get-username', (req, res) => {
   }
 });
 
-// Iniciar o servidor
+app.post('/cadastrarUsuario', (req, res) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: 'Informe username, email e password' });
+  }
+
+  const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+  db.query(sql, [username, email, password], (err, result) => {
+    if (err) {
+      console.log('Erro ao cadastrar usuário:', err);
+      return res.status(500).json({ error: 'Erro interno ao cadastrar usuário' });
+    }
+
+    console.log('Usuário cadastrado com sucesso');
+    return res.status(200).json({ success: 'Usuário cadastrado com sucesso' });
+  });
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  db.query(
+    'SELECT id, username, password FROM users WHERE username = ?',
+    [username],
+    async (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Erro interno do servidor');
+        return;
+      }
+
+      if (results.length > 0) {
+        const user = results[0];
+        req.session.isLoggedIn = true;
+        req.session.userId = user.id;
+        req.session.username = user.username;
+
+        res.status(200).send('Login bem-sucedido');
+      } else {
+        res.status(401).send('Credenciais inválidas');
+      }
+    }
+  );
+});
+
+app.get('/get-user-info', (req, res) => {
+  const userId = req.session.userId;
+
+  if (userId) {
+    db.query('SELECT username, email, password FROM users WHERE id = ?', [userId], (error, results) => {
+      if (error) {
+        console.error('Erro ao obter informações do usuário:', error);
+        res.status(500).send('Erro interno do servidor');
+        return;
+      }
+
+      const user = results[0] || {};
+      res.json(user);
+    });
+  } else {
+    res.status(401).json({ error: 'Usuário não autenticado' });
+  }
+});
+
+app.post('/atualizar-dados', (req, res) => {
+  const userId = req.session.userId;
+  const { newUsername, newPassword } = req.body;
+
+  if (!newUsername || !newPassword) {
+    return res.status(400).json({ error: 'Informe novo nome de usuário e senha' });
+  }
+
+  if (newUsername.length > 30 || newPassword.length > 25) {
+    return res.status(400).json({ error: 'Nome de usuário ou senha muito longos' });
+  }
+
+  const sql = 'UPDATE users SET username = ?, password = ? WHERE id = ?';
+  db.query(sql, [newUsername, newPassword, userId], (err, result) => {
+    if (err) {
+      console.error('Erro ao atualizar dados do usuário:', err);
+      return res.status(500).json({ error: 'Erro interno ao atualizar dados do usuário' });
+    }
+
+    console.log('Dados do usuário atualizados com sucesso');
+    return res.status(200).json({ success: 'Dados do usuário atualizados com sucesso' });
+  });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://172.16.31.27:${port}`);
 });

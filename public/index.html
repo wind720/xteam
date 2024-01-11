@@ -14,7 +14,7 @@
         <div class="oh">
             <div><a href=""><img src="images/pngegg.png" alt="shopping cart" class="cart"></a></div>
             <div>|</div>
-            <div><a id="userLink" href="personalizacaoUsuario/personalizacaoUsuario.html"><img src="images/—Pngtree—user icon_4479727.png" alt="user" class="cart"></a></div>
+            <div id="userLink"><img src="images/—Pngtree—user icon_4479727.png" alt="user" class="cart"></div>
             <div class="us" id="loggedInUser">Sem usuário</div>
         </div>
         
@@ -101,11 +101,26 @@
             <button>Comprar</button>
         </section>
     </div>
-    </main>
-    <script src="flickity/flickity.pkgd.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var searchInput = document.getElementById("search-input");
+document.addEventListener("DOMContentLoaded", function () {
+    // Função para exibir o prompt de login ou cadastro
+    function showLoginOrRegisterPrompt() {
+        const action = prompt('Deseja fazer login ou cadastro? (Digite "login" ou "cadastro")').toLowerCase();
+
+        if (action === 'login') {
+            // Se a ação for login, continue com a função existente de login
+            login();
+        } else if (action === 'cadastro') {
+            // Se a ação for cadastro, chame a função de cadastro
+            register();
+        } else {
+            // Se a entrada for inválida, exiba uma mensagem de erro e peça novamente
+            alert('Opção inválida. Tente novamente.');
+            showLoginOrRegisterPrompt();
+        }
+    }
+
+    var searchInput = document.getElementById("search-input");
             searchInput.addEventListener("input", function () {
                 var searchTerm = searchInput.value.toLowerCase();
         
@@ -130,79 +145,126 @@
                     section.style.transitionDelay = index * 0.1 + "s";
                 });
             });
-        
-            function showLoginOrRegisterPrompt() {
-                // Fazer uma requisição ao servidor para verificar o status de login
-                fetch('/check-login')
-                    .then(response => response.json())
-                    .then(data => {
-                        const isLoggedIn = data.isLoggedIn;
-        
-                        if (!isLoggedIn) {
-                            const userChoice = prompt('Escolha uma opção:\n1. Login\n2. Cadastro');
-        
-                            if (userChoice === '1') {
-                                const username = prompt('Usuário:');
-                                const password = prompt('Senha:');
-        
-                                // Fazer uma requisição ao servidor para fazer login
-                                fetch('/login', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ username, password })
-                                })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            alert('Login bem-sucedido!');
-                                            location.reload(); // Recarregar a página após o login
-                                        } else {
-                                            alert('Credenciais inválidas. Tente novamente.');
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Erro ao fazer login:', error);
-                                    });
-                            } else if (userChoice === '2') {
-                                const username = prompt('Usuário:');
-                                const password = prompt('Senha:');
-        
-                                // Fazer uma requisição ao servidor para fazer cadastro
-                                fetch('/cadastrarUsuario', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ username, password })
-                                })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            alert('Cadastro realizado com sucesso!');
-                                        } else {
-                                            alert('Erro ao cadastrar usuário. Tente novamente.');
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Erro ao cadastrar usuário:', error);
-                                    });
-                            } else {
-                                alert('Opção inválida ou cancelada.');
-                            }
-                        } else {
-                            // Se o usuário já estiver logado, redirecione para a página de personalização do usuário
-                            alert('Você já está logado como ' + data.username);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao verificar o status de login:', error);
-                    });
+
+    // Função para realizar o login
+    function login() {
+        const username = prompt('Usuário:');
+        const password = prompt('Senha:');
+
+        // Fazer uma requisição ao servidor para fazer login
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Login bem-sucedido!');
+                location.reload(); // Recarregar a página após o login
+            } else {
+                alert('Credenciais inválidas. Tente novamente.');
+                showLoginOrRegisterPrompt();
             }
-        
-            // Adicione este código para ser executado quando o usuário clicar na imagem
-            document.getElementById('userLink').addEventListener('click', showLoginOrRegisterPrompt);
+        })
+        .catch(error => {
+            console.error('Erro ao fazer login:', error);
         });
-        </script>
+    }
+
+    // Função para realizar o cadastro
+    function register() {
+        const newUsername = prompt('Nome de usuário:');
+        const newEmail = prompt('Email (no formato nomedoemail@gmail.com):');
+        const newPassword = prompt('Senha (mínimo  caracteres, incluindo um número e um caractere especial):');
+
+        // Validar as entradas
+        if (!isValidEmail(newEmail) || !isValidPassword(newPassword) || !isValidUsername(newUsername)) {
+            alert('Entradas inválidas. Tente novamente.');
+            showLoginOrRegisterPrompt();
+            return;
+        }
+
+        // Fazer uma requisição ao servidor para cadastrar o novo usuário
+        fetch('/cadastrarUsuario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: newUsername, email: newEmail, password: newPassword })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Cadastro bem-sucedido!');
+            } else {
+                alert('Erro ao cadastrar usuário. Tente novamente.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao cadastrar usuário:', error);
+        });
+    }
+
+    // Função para validar o formato do email
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Função para validar o formato da senha
+    function isValidPassword(password) {
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        return passwordRegex.test(password);
+    }
+
+    // Função para validar o formato do nome de usuário
+    function isValidUsername(username) {
+        return username.length <= 30;
+    }
+
+    // Atualizar informações do usuário ao carregar a página
+    fetch('/check-login')
+        .then(response => response.json())
+        .then(data => {
+            const isLoggedIn = data.isLoggedIn;
+
+            if (isLoggedIn) {
+                // Se o usuário estiver logado, atualize a div com o nome de usuário
+                document.getElementById('loggedInUser').textContent = data.username;
+            } else {
+                // Se o usuário não estiver logado, exiba o prompt para login ou cadastro
+                showLoginOrRegisterPrompt();
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao verificar o status de login:', error);
+        });
+
+    // Adicionar evento de clique ao link de usuário
+    document.getElementById('userLink').addEventListener('click', () => {
+        // Verificar se o usuário está logado antes de redirecionar para a página de personalização
+        fetch('/check-login')
+            .then(response => response.json())
+            .then(data => {
+                const isLoggedIn = data.isLoggedIn;
+
+                if (isLoggedIn) {
+                    // Se o usuário estiver logado, redirecione para a página de personalização do usuário
+                    window.location.href = '/personalizacaoUsuario/personalizacaoUsuario.html';
+                } else {
+                    // Se o usuário não estiver logado, exiba o prompt para login ou cadastro
+                    showLoginOrRegisterPrompt();
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao verificar o status de login:', error);
+            });
+    });
+});
+    </script>
+</main>
+<script src="flickity/flickity.pkgd.min.js"></script>
         
 </body>
 

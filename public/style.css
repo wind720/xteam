@@ -47,6 +47,7 @@ body {
 .cart{
     width: 50px;
     height: auto;
+    cursor: pointer;
 }
 .oh{
     display: flex;
