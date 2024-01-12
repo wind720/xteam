@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Atualizar informações do usuário ao carregar a página
-    fetch('/check-login')
+    fetch('./check-login')
         .then(response => response.json())
         .then(data => {
             const isLoggedIn = data.isLoggedIn;
