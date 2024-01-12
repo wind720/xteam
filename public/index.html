@@ -225,24 +225,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Atualizar informações do usuário ao carregar a página
     fetch('/check-login')
-    .then(response => {
-        console.log('Response:', response);
-        return response.text();  // Altere para text para ver o conteúdo exato da resposta
-    })
-        .then(data => {
-            const isLoggedIn = data.isLoggedIn;
+  .then(response => response.json())  // Parse a resposta como JSON
+  .then(data => {
+    const isLoggedIn = data.isLoggedIn;
 
-            if (isLoggedIn) {
-                // Se o usuário estiver logado, atualize a div com o nome de usuário
-                document.getElementById('loggedInUser').textContent = data.username;
-            } else {
-                // Se o usuário não estiver logado, exiba o prompt para login ou cadastro
-                showLoginOrRegisterPrompt();
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao verificar o status de login:', error);
-        });
+    if (isLoggedIn) {
+      // Se o usuário estiver logado, atualize a div com o nome de usuário
+      document.getElementById('loggedInUser').textContent = data.username;
+    } else {
+      // Se o usuário não estiver logado, exiba o prompt para login ou cadastro
+      showLoginOrRegisterPrompt();
+    }
+  })
+  .catch(error => {
+    console.error('Erro ao verificar o status de login:', error);
+  });
 
     // Adicionar evento de clique ao link de usuário
     document.getElementById('userLink').addEventListener('click', () => {

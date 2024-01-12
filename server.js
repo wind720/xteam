@@ -56,7 +56,7 @@ app.get('/check-login', (req, res) => {
     }
   } catch (error) {
     console.error('Erro ao verificar o status de login:', error);
-    res.status(500).send('Erro interno do servidor');
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
