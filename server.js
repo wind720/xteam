@@ -43,7 +43,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/check-login', (req, res) => {
-  console.log('Recebida solicitação para /check-login');
   try {
     const isLoggedIn = req.session.isLoggedIn || false;
     const userId = req.session.userId;
