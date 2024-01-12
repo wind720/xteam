@@ -8,6 +8,9 @@
     "start": "node server.js"
   },
   "author": "",
+  "engines": {
+    "node": "14.x"
+  },
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
