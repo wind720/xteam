@@ -47,6 +47,7 @@ app.get('/check-login', (req, res) => {
     const isLoggedIn = req.session.isLoggedIn || false;
     const userId = req.session.userId;
     const username = req.session.username || 'Sem usuário';
+    console.log('Rota /check-login acessada');
 
     if (!isLoggedIn) {
       res.status(401).json({ isLoggedIn, username, userId });
