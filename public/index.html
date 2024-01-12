@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch('/check-login')
     .then(response => {
         console.log('Response:', response);
-        return response.json();
+        return response.text();  // Altere para text para ver o conteúdo exato da resposta
     })
         .then(data => {
             const isLoggedIn = data.isLoggedIn;
