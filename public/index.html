@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function register() {
         const newUsername = prompt('Nome de usuário:');
         const newEmail = prompt('Email (no formato nomedoemail@gmail.com):');
-        const newPassword = prompt('Senha (mínimo  caracteres, incluindo um número e um caractere especial):');
+        const newPassword = prompt('Senha (mínimo 8 caracteres, incluindo um número e um caractere especial):');
 
         // Validar as entradas
         if (!isValidEmail(newEmail) || !isValidPassword(newPassword) || !isValidUsername(newUsername)) {
@@ -225,10 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Atualizar informações do usuário ao carregar a página
     fetch('/check-login')
-    .then(response => {
-        console.log('Response:', response);
-        return response.text();  // Altere para text para ver o conteúdo exato da resposta
-    })
+        .then(response => response.json())
         .then(data => {
             const isLoggedIn = data.isLoggedIn;
 
@@ -248,10 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('userLink').addEventListener('click', () => {
         // Verificar se o usuário está logado antes de redirecionar para a página de personalização
         fetch('/check-login')
-        .then(response => {
-        console.log('Response:', response);
-        return response.text();  // Altere para text para ver o conteúdo exato da resposta
-    })
+            .then(response => response.json())
             .then(data => {
                 const isLoggedIn = data.isLoggedIn;
 
