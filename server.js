@@ -78,7 +78,6 @@ app.get('/get-username', (req, res) => {
     res.json({ username: 'Sem usuário' });
   }
 });
-
 app.post('/cadastrarUsuario', (req, res) => {
   const { username, email, password } = req.body;
 
@@ -86,8 +85,11 @@ app.post('/cadastrarUsuario', (req, res) => {
     return res.status(400).json({ error: 'Informe username, email e password' });
   }
 
-  const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-  db.query(sql, [username, email, password], (err, result) => {
+  const sqlInsertUser = 'INSERT INTO users (username, email, password, balance, comments, avaliations, games) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const defaultValues = [username, email, password, 100.00, 0, 0, 0];
+
+  // Inserir novo usuário no banco de dados
+  db.query(sqlInsertUser, defaultValues, (err, result) => {
     if (err) {
       console.log('Erro ao cadastrar usuário:', err);
       return res.status(500).json({ error: 'Erro interno ao cadastrar usuário' });

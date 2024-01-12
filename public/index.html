@@ -83,23 +83,46 @@
         <section class="produto12" id="Elden Ring">
             <button>Comprar</button>
         </section>
+        
+        <section class="produto13" id="Dead By Daylight">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto14" id="Counter-Strike 2">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto15" id="Hogwarts Legacy">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto16" id="Hollow Knight">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto17" id="Phasmophobia">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto18" id="PUBG: Battlegrounds">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto19" id="Baldur's Gate">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto20" id="Ori and the Will of the Wisps">
+            <button>Comprar</button>
+        </section>
+
+        <section class="produto21" id="Dark Souls III">
+            <button>Comprar</button>
+        </section>
+
     </div>
-    <div class="games hidden">
-        <section class="produto1" id="Lethal Company">
-            <button>Comprar</button>
-        </section>
-
-        <section class="produto2" id="Fortnite">
-            <button>Comprar</button>
-        </section>
-
-        <section class="produto3" id="Lies of P">
-            <button>Comprar</button>
-        </section>
-
-        <section class="produto4" id="Celest">
-            <button>Comprar</button>
-        </section>
+    <img src="./images/pngwing.com (4).png" alt="seta" class="setinhaa" id="setinha" onclick="">
+    <img src="./images/pngwing.com (5).png" alt="seta reversa" class="setinhaa" id="setinha-reversa" onclick="" style="display: none;">
     </div>
     <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -261,6 +284,48 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('Erro ao verificar o status de login:', error);
             });
     });
+    // Adicionar evento de clique à seta
+    const setinha = document.getElementById('setinha');
+    const setinhaReversa = document.getElementById('setinha-reversa');
+
+    let secoesVisiveis = true; // Adiciona um estado para controlar a visibilidade das seções
+
+    setinha.addEventListener('click', function () {
+        // Alternar a visibilidade das setas
+        setinha.style.display = 'none';
+        setinhaReversa.style.display = 'block';
+
+        // Mostrar as seções correspondentes
+        toggleSecoesVisiveis();
+    });
+
+    setinhaReversa.addEventListener('click', function () {
+        // Alternar a visibilidade das setas
+        setinha.style.display = 'block';
+        setinhaReversa.style.display = 'none';
+
+        // Mostrar as seções correspondentes
+        toggleSecoesVisiveis();
+    });
+
+    // Função para mostrar ou esconder as seções
+    function toggleSecoesVisiveis() {
+        const secoes = document.querySelectorAll('.games section');
+
+        if (secoesVisiveis) {
+            // Se as seções estão visíveis, mostrar as 12 primeiras
+            for (let i = 0; i < 12; i++) {
+                secoes[i].style.display = 'block';
+            }
+        } else {
+            // Se as seções estão escondidas, mostrar as outras 9
+            for (let i = 12; i < secoes.length; i++) {
+                secoes[i].style.display = 'block';
+            }
+        }
+
+        secoesVisiveis = !secoesVisiveis; // Inverte o estado
+    }
 });
     </script>
 </main>
