@@ -17,10 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'acesso123',
-  database: 'ecomm_login',
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'acesso123',
+  database: process.env.DB_DATABASE || 'ecomm_login',
 });
 
 // Conectar ao banco de dados
