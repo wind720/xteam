@@ -1,7 +1,13 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/api/(.*)", "dest": "/server.js" },
-    { "src": "/.*", "dest": "/public/$0" }
+    { "src": "/check-login", "dest": "/server.js" },
+    { "src": "/login", "dest": "/server.js" },
+    { "src": "/get-username", "dest": "/server.js" },
+    { "src": "/cadastrarUsuario", "dest": "/server.js" },
+    { "src": "/get-user-info", "dest": "/server.js" },
+    { "src": "/atualizar-dados", "dest": "/server.js" },
+    { "src": "/logout", "dest": "/server.js" },
+    { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
