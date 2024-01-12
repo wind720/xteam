@@ -43,14 +43,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/check-login', (req, res) => {
-  const isLoggedIn = req.session.isLoggedIn || false;
-  const userId = req.session.userId;
-  const username = req.session.username || 'Sem usuário';
+  try {
+    const isLoggedIn = req.session.isLoggedIn || false;
+    const userId = req.session.userId;
+    const username = req.session.username || 'Sem usuário';
 
-  if (!isLoggedIn) {
-    res.status(401).json({ isLoggedIn, username, userId });
-  } else {
-    res.status(200).json({ isLoggedIn, username, userId });
+    if (!isLoggedIn) {
+      res.status(401).json({ isLoggedIn, username, userId });
+    } else {
+      res.status(200).json({ isLoggedIn, username, userId });
+    }
+  } catch (error) {
+    console.error('Erro ao verificar o status de login:', error);
+    res.status(500).send('Erro interno do servidor');
   }
 });
 
@@ -168,5 +173,5 @@ app.get('/logout', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running at http://172.16.31.27:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
