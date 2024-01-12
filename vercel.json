@@ -1,6 +1,5 @@
 {
     "routes": [
-      { "src": "/check-login", "dest": "/server.js" },
-      { "src": "/.*", "dest": "/server.js" }
+      { "src": "/.*", "dest": "/public/index.js" }
     ]
   }
