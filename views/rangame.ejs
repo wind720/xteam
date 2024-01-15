@@ -1,0 +1,74 @@
+<%
+// Verifica se a requisição aceita JSON
+const acceptJson = req.get('Accept') === 'application/json';
+
+// Se aceita JSON, envia a resposta como JSON
+if (acceptJson) {
+    %>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const gameId = window.location.pathname.split('/').pop();
+            const response = await fetch(`/game/${gameId}`);
+            const data = await response.json();
+            console.log(data);
+            // Lógica adicional para manipular os dados JSON conforme necessário
+        });
+    </script>
+    <%
+} else {
+    // Se não aceita JSON, renderiza a página HTML normalmente
+    %>
+    <!DOCTYPE html>
+    <html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Rangame</title>
+        <link rel="stylesheet" href="style.css"> <!-- Certifique-se de que o caminho está correto -->
+    </head>
+
+    <body>
+        <main>
+            <div id="gameInfo">
+                <h1 id="gameTitle"></h1>
+                <img id="gameImage" src="" alt="Imagem do Jogo">
+                <p id="gameDescription"></p>
+                <p id="gameType">Tipo: </p>
+                <p id="gamePrice">Preço: </p>
+                <p id="gameRate">Classificação: </p>
+            </div>
+        </main>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Obtendo o ID do jogo a partir da URL
+                const gameId = window.location.pathname.split('/').pop();
+
+                // Atualizar informações do jogo ao carregar a página
+                fetch(`/game/${gameId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Erro ao obter informações do jogo: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Preencher as informações do jogo nos elementos HTML
+                        document.getElementById('gameTitle').textContent = data.game;
+                        document.getElementById('gameImage').src = data.img || 'caminho_da_imagem_default.jpg';  // Substitua pelo caminho padrão
+                        document.getElementById('gameDescription').textContent = data.description;
+                        document.getElementById('gameType').textContent += data.type;
+                        document.getElementById('gamePrice').textContent += data.price !== null ? `$${data.price.toFixed(2)}` : 'Indisponível';
+                        document.getElementById('gameRate').textContent += data.rate !== null ? `${data.rate} estrelas` : 'Indisponível';
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+        </script>
+    </body>
+
+    </html>
+    <%
+}
+%>

@@ -3,9 +3,12 @@ const path = require('path');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const ejs = require('ejs');
 
 const app = express();
 const port = process.env.PORT || 3000;
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs'); // Altere para 'ejs'
 
 app.use(session({
   secret: 'indw77',
@@ -15,6 +18,7 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use('/game', express.static(path.join(__dirname, 'views')));
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
@@ -174,6 +178,36 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/game/:gameid', (req, res) => {
+  const gameId = req.params.gameid;
+
+  // Consultar o banco de dados para obter informações do jogo com base no gameid
+  db.query('SELECT * FROM games WHERE gameid = ?', [gameId], (error, results) => {
+    if (error) {
+      console.error('Erro ao obter informações do jogo:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      return;
+    }
+
+    if (results.length > 0) {
+      const gameInfo = results[0];
+
+      // Verifica se a requisição aceita JSON
+      const acceptJson = req.get('Accept') === 'application/json';
+
+      // Se aceita JSON, envia a resposta como JSON
+      if (acceptJson) {
+        res.json(gameInfo);
+      } else {
+        // Se não aceita JSON, renderiza a página HTML normalmente
+        res.render('rangame', { gameInfo, req });
+      }
+    } else {
+      res.status(404).json({ error: 'Jogo não encontrado' });
+    }
+  });
+});
+
 app.listen(port, () => {
-  console.log(`Server is running at http://192.168.0.109:${port}`);
+  console.log(`Server is running at http://172.16.31.27:${port}`);
 });
