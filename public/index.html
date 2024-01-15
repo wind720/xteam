@@ -23,7 +23,7 @@
         <div class="destaque">
             <div class="pop">MAIS POPULARES
             <div class="p">CONFIRA OS JOGOS DO MOMENTO</div></div>
-            <div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true }'>
+            <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
                 <div class="gallery-cell1"></div>
                 <div class="gallery-cell2"></div>
                 <div class="gallery-cell3"></div>
@@ -36,15 +36,8 @@
             </form>
         </div>
         <div class="games">
-        <section class="produto1" id="Lethal Company">
-            <button>Comprar</button>
-        </section>
 
         <section class="produto2" id="Fortnite">
-            <button>Comprar</button>
-        </section>
-
-        <section class="produto3" id="Lies of P">
             <button>Comprar</button>
         </section>
 
@@ -83,7 +76,6 @@
         <section class="produto12" id="Elden Ring">
             <button>Comprar</button>
         </section>
-        
         <section class="produto13" id="Dead By Daylight">
             <button>Comprar</button>
         </section>
@@ -93,10 +85,6 @@
         </section>
 
         <section class="produto15" id="Hogwarts Legacy">
-            <button>Comprar</button>
-        </section>
-
-        <section class="produto16" id="Hollow Knight">
             <button>Comprar</button>
         </section>
 
@@ -119,10 +107,7 @@
         <section class="produto21" id="Dark Souls III">
             <button>Comprar</button>
         </section>
-
     </div>
-    <img src="./images/pngwing.com (4).png" alt="seta" class="setinhaa" id="setinha" onclick="">
-    <img src="./images/pngwing.com (5).png" alt="seta reversa" class="setinhaa" id="setinha-reversa" onclick="" style="display: none;">
     </div>
     <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -283,49 +268,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => {
                 console.error('Erro ao verificar o status de login:', error);
             });
+            
     });
-    // Adicionar evento de clique à seta
-    const setinha = document.getElementById('setinha');
-    const setinhaReversa = document.getElementById('setinha-reversa');
-
-    let secoesVisiveis = true; // Adiciona um estado para controlar a visibilidade das seções
-
-    setinha.addEventListener('click', function () {
-        // Alternar a visibilidade das setas
-        setinha.style.display = 'none';
-        setinhaReversa.style.display = 'block';
-
-        // Mostrar as seções correspondentes
-        toggleSecoesVisiveis();
-    });
-
-    setinhaReversa.addEventListener('click', function () {
-        // Alternar a visibilidade das setas
-        setinha.style.display = 'block';
-        setinhaReversa.style.display = 'none';
-
-        // Mostrar as seções correspondentes
-        toggleSecoesVisiveis();
-    });
-
-    // Função para mostrar ou esconder as seções
-    function toggleSecoesVisiveis() {
-        const secoes = document.querySelectorAll('.games section');
-
-        if (secoesVisiveis) {
-            // Se as seções estão visíveis, mostrar as 12 primeiras
-            for (let i = 0; i < 12; i++) {
-                secoes[i].style.display = 'block';
-            }
-        } else {
-            // Se as seções estão escondidas, mostrar as outras 9
-            for (let i = 12; i < secoes.length; i++) {
-                secoes[i].style.display = 'block';
-            }
-        }
-
-        secoesVisiveis = !secoesVisiveis; // Inverte o estado
-    }
 });
     </script>
 </main>
